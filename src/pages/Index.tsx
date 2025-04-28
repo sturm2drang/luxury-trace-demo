@@ -1,11 +1,40 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import Navbar from '@/components/Navbar';
+import Hero from '@/components/Hero';
+import RegisterAsset from '@/components/RegisterAsset';
+import TransferAsset from '@/components/TransferAsset';
+import TraceAsset from '@/components/TraceAsset';
+import ZKPProof from '@/components/ZKPProof';
+import CAVerify from '@/components/CAVerify';
+import AssetsList from '@/components/AssetsList';
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState('register');
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  
+  const handleAssetUpdated = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
+  
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gray-50 pb-12">
+      <div className="container px-4 py-8 mx-auto">
+        <Hero />
+        
+        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+        
+        <div className="mb-8">
+          {activeTab === 'register' && <RegisterAsset onSuccess={handleAssetUpdated} />}
+          {activeTab === 'transfer' && <TransferAsset onSuccess={handleAssetUpdated} />}
+          {activeTab === 'trace' && <TraceAsset />}
+          {activeTab === 'zkp' && <ZKPProof />}
+          {activeTab === 'verify' && <CAVerify />}
+        </div>
+        
+        {(activeTab === 'register' || activeTab === 'transfer') && (
+          <AssetsList refreshTrigger={refreshTrigger} />
+        )}
       </div>
     </div>
   );
