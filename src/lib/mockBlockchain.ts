@@ -1,7 +1,15 @@
-
 export interface HistoryEntry {
   owner: string;
   date: string;
+}
+
+export interface ComponentTrace {
+  id: string;
+  name: string;
+  supplier: string;
+  origin: string;
+  batchNumber: string;
+  certifications: string[];
 }
 
 export interface Asset {
@@ -10,6 +18,7 @@ export interface Asset {
   model: string;
   owner: string;
   history: HistoryEntry[];
+  components?: ComponentTrace[];
 }
 
 // Sample assets data
@@ -22,6 +31,32 @@ export const SAMPLE_ASSETS: Asset[] = [
     history: [
       { owner: 'Alice', date: '2025-03-01T10:00:00Z' },
       { owner: 'Bob', date: '2025-04-10T11:30:00Z' },
+    ],
+    components: [
+      {
+        id: 'C001',
+        name: 'Sapphire Crystal',
+        supplier: 'Schott AG',
+        origin: 'Germany',
+        batchNumber: 'S12345',
+        certifications: ['ISO 12870']
+      },
+      {
+        id: 'C002',
+        name: 'Oystersteel',
+        supplier: 'ThyssenKrupp',
+        origin: 'Sweden',
+        batchNumber: 'O98765',
+        certifications: ['Fair Trade Certified']
+      },
+      {
+        id: 'C003',
+        name: 'Cerachrom Bezel',
+        supplier: 'Rolex Internal',
+        origin: 'Switzerland',
+        batchNumber: 'C54321',
+        certifications: ['In-house Certified']
+      }
     ]
   },
   {
@@ -32,6 +67,24 @@ export const SAMPLE_ASSETS: Asset[] = [
     history: [
       { owner: 'Carol', date: '2025-02-15T09:20:00Z' },
       { owner: 'Dave', date: '2025-03-22T14:45:00Z' },
+    ],
+    components: [
+      {
+        id: 'C004',
+        name: 'Togo Leather',
+        supplier: 'Tanneries Haas',
+        origin: 'France',
+        batchNumber: 'T22334',
+        certifications: ['Leather Working Group (LWG)']
+      },
+      {
+        id: 'C005',
+        name: 'Gold Hardware',
+        supplier: 'Metalor',
+        origin: 'Switzerland',
+        batchNumber: 'G88321',
+        certifications: ['Responsible Jewellery Council (RJC)']
+      }
     ]
   },
   {
@@ -41,6 +94,24 @@ export const SAMPLE_ASSETS: Asset[] = [
     owner: 'Emma',
     history: [
       { owner: 'Emma', date: '2025-01-05T15:30:00Z' },
+    ],
+    components: [
+      {
+        id: 'C006',
+        name: 'Monogram Canvas',
+        supplier: 'Louis Vuitton Workshops',
+        origin: 'France',
+        batchNumber: 'M99887',
+        certifications: ['In-house Verified']
+      },
+      {
+        id: 'C007',
+        name: 'Leather Trim',
+        supplier: 'Gruppo Mastrotto',
+        origin: 'Italy',
+        batchNumber: 'L55678',
+        certifications: ['LWG Gold Rated']
+      }
     ]
   },
   {
@@ -50,6 +121,24 @@ export const SAMPLE_ASSETS: Asset[] = [
     owner: 'Frank',
     history: [
       { owner: 'Frank', date: '2025-02-18T13:15:00Z' },
+    ],
+    components: [
+      {
+        id: 'C008',
+        name: 'White Gold Case',
+        supplier: 'Metalor',
+        origin: 'Switzerland',
+        batchNumber: 'WG34567',
+        certifications: ['Responsible Jewellery Council (RJC)']
+      },
+      {
+        id: 'C009',
+        name: 'Sapphire Crystal',
+        supplier: 'Stettler Sapphire',
+        origin: 'Switzerland',
+        batchNumber: 'SC78901',
+        certifications: ['GIA']
+      }
     ]
   },
   {
@@ -59,6 +148,24 @@ export const SAMPLE_ASSETS: Asset[] = [
     owner: 'Grace',
     history: [
       { owner: 'Grace', date: '2025-03-10T11:45:00Z' },
+    ],
+    components: [
+      {
+        id: 'C010',
+        name: 'Lambskin Leather',
+        supplier: 'Richard Heller Leder',
+        origin: 'Germany',
+        batchNumber: 'L65432',
+        certifications: ['LWG Silver Rated']
+      },
+      {
+        id: 'C011',
+        name: 'Gold-Tone Metal',
+        supplier: 'Galvanica Formelli',
+        origin: 'Italy',
+        batchNumber: 'G11223',
+        certifications: ['Fair Trade Gold']
+      }
     ]
   }
 ];
@@ -83,7 +190,8 @@ export async function registerAsset(
     brand, 
     model, 
     owner, 
-    history: [{ owner, date: new Date().toISOString() }] 
+    history: [{ owner, date: new Date().toISOString() }],
+    components: [] // Initialize empty components array for new assets
   };
   
   assets.push(newAsset);
@@ -177,4 +285,23 @@ export async function getAllAssets(): Promise<Asset[]> {
   await new Promise(resolve => setTimeout(resolve, 300));
   
   return assets;
+}
+
+// Get asset components
+export async function getAssetComponents(
+  itemId: string
+): Promise<{ success: boolean; components?: ComponentTrace[]; error?: string }> {
+  const asset = assets.find(a => a.itemId === itemId);
+  
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 300));
+  
+  if (!asset) {
+    return { success: false, error: 'Asset not found' };
+  }
+  
+  return { 
+    success: true, 
+    components: asset.components || [] 
+  };
 }

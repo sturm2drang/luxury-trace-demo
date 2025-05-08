@@ -12,6 +12,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
     { id: 'register', label: 'Register Asset' },
     { id: 'transfer', label: 'Transfer Ownership' },
     { id: 'trace', label: 'Trace Asset' },
+    { id: 'material', label: 'Material Traceability' },
     { id: 'zkp', label: 'ZKP Proof' },
     { id: 'verify', label: 'CA Verify' },
   ];

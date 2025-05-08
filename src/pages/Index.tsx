@@ -5,6 +5,7 @@ import Hero from '@/components/Hero';
 import RegisterAsset from '@/components/RegisterAsset';
 import TransferAsset from '@/components/TransferAsset';
 import TraceAsset from '@/components/TraceAsset';
+import MaterialTraceability from '@/components/MaterialTraceability';
 import ZKPProof from '@/components/ZKPProof';
 import CAVerify from '@/components/CAVerify';
 import AssetsList from '@/components/AssetsList';
@@ -28,6 +29,7 @@ const Index = () => {
           {activeTab === 'register' && <RegisterAsset onSuccess={handleAssetUpdated} />}
           {activeTab === 'transfer' && <TransferAsset onSuccess={handleAssetUpdated} />}
           {activeTab === 'trace' && <TraceAsset />}
+          {activeTab === 'material' && <MaterialTraceability />}
           {activeTab === 'zkp' && <ZKPProof />}
           {activeTab === 'verify' && <CAVerify />}
         </div>
